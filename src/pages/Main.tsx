@@ -1,17 +1,57 @@
-import React, { useEffect, useState } from 'react';
-import './../App.css';
-import * as math from 'mathjs';
-import styles from './Main.module.css'
+import React, { useEffect, useState } from "react";
+import "./../App.css";
+import * as math from "mathjs";
+import styles from "./Main.module.css";
+import type { RadioChangeEvent } from "antd";
+import { Radio } from "antd";
 
-const array = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0','+', '-', '*', '/']
+const array = [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "0",
+  "+",
+  "-",
+  "*",
+  "/",
+];
 
-function App() {
-  const [expression, setExpression] = useState('');
-  const [screenVal, setScreenVal] = useState('');
+function Main() {
+  const [expression, setExpression] = useState("");
+  const [screenVal, setScreenVal] = useState("");
   const [customVariables, setCustomVariables] = useState({});
   // Default mode is "rad"
-  const [mode, setMode] = useState('rad');
+  const [mode, setMode] = useState("rad");
+  const [value, setValue] = useState(1);
 
+  useEffect(()=>{
+    if(value===1){
+        document.body.classList.add('white')
+        document.body.classList.remove('dark')
+        document.body.classList.remove('blue')
+    }
+    if(value===2){
+        document.body.classList.add('dark')
+        document.body.classList.remove('white')
+        document.body.classList.remove('blue')
+    }
+    if(value===3){
+        document.body.classList.add('blue')
+        document.body.classList.remove('dark')
+        document.body.classList.remove('white')
+    }
+  },[value])
+
+  const onChange = (e: RadioChangeEvent) => {
+    console.log("radio checked", e.target.value);
+    setValue(e.target.value);
+  };
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setExpression(e.target.value);
@@ -29,31 +69,28 @@ function App() {
         e: Math.E,
         // Add factorial function
         fact: math.factorial,
-        sin: mode === 'rad' ? Math.sin : math.sin,
-        cos: mode === 'rad' ? Math.cos : math.cos,
-        tan: mode === 'rad' ? Math.tan : math.tan,
-        asin: mode === 'rad' ? Math.asin : math.asin,
-        acos: mode === 'rad' ? Math.acos : math.acos,
-        atan: mode === 'rad' ? Math.atan : math.atan,
+        sin: mode === "rad" ? Math.sin : math.sin,
+        cos: mode === "rad" ? Math.cos : math.cos,
+        tan: mode === "rad" ? Math.tan : math.tan,
+        asin: mode === "rad" ? Math.asin : math.asin,
+        acos: mode === "rad" ? Math.acos : math.acos,
+        atan: mode === "rad" ? Math.atan : math.atan,
       };
 
       const result = math.evaluate(expression, allVariables);
-      if (typeof result === 'number' && !isNaN(result)) {
+      if (typeof result === "number" && !isNaN(result)) {
         setExpression(String(result));
       } else {
-        setScreenVal('Error: Invalid expression');
+        setScreenVal("Error: Invalid expression");
       }
     } catch (error) {
-      setScreenVal('Error: Invalid expression');
+      setScreenVal("Error: Invalid expression");
     }
-    
   }
 
-
-
   function clearScreen() {
-    setExpression('');
-    setScreenVal('');
+    setExpression("");
+    setScreenVal("");
   }
 
   function backspace() {
@@ -63,7 +100,7 @@ function App() {
 
   function toggleMode() {
     // Toggle between "rad" and "deg" modes
-    setMode(mode === 'rad' ? 'deg' : 'rad');
+    setMode(mode === "rad" ? "deg" : "rad");
   }
 
   return (
@@ -71,10 +108,19 @@ function App() {
       <div className="App">
         <div className="calc-body">
           <div className={styles.header}>
-            <h1>calc</h1>
-            <div>Theme</div>
+            <h1 className={styles.textHead}>calc</h1>
+            <div className={styles.right}>
+              <div className={styles.textHead}>Theme</div>
+              <div>
+                <Radio.Group onChange={onChange} value={value}>
+                  <Radio className={styles.textHead} value={1}>1</Radio>
+                  <Radio className={styles.textHead} value={2}>2</Radio>
+                  <Radio className={styles.textHead} value={3}>3</Radio>    
+                </Radio.Group>
+              </div>
+            </div>
           </div>
-          <div className="input-section">
+          <div className={styles.inputSection}>
             <input
               className={styles.screen}
               type="text"
@@ -84,27 +130,24 @@ function App() {
           </div>
           <div className="button-section">
             <div className={styles.numericPad}>
-              {array.map(
-                (input) => (
-                  <button key={input} onClick={() => handleClick(input)}>
-                    {input}
-                  </button>
-                )
-              )}
-              <button onClick={() => handleClick('.')}>,</button>
+              {array.map((input) => (
+                <button key={input} onClick={() => handleClick(input)}>
+                  {input}
+                </button>
+              ))}
+              <button onClick={() => handleClick(".")}>,</button>
             </div>
-            <div className="output">Output: {screenVal}</div>
+            {/* <div className="output">Output: {screenVal}</div> */}
             <div className={styles.controlButtons}>
               <button className="clear-button" onClick={clearScreen}>
-                Clear
+                CLEAR
               </button>
               <button className="backspace-button" onClick={backspace}>
-                del
+                DELETE
               </button>
               <button className="equals-button" onClick={calculate}>
                 =
               </button>
-             
             </div>
           </div>
         </div>
@@ -114,4 +157,4 @@ function App() {
   );
 }
 
-export default App;
+export default Main;

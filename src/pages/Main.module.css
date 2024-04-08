@@ -2,6 +2,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap:20px;
 }
 .numericPad{
     margin-top: 10px;
@@ -16,5 +17,19 @@
 }
 .screen{
     height: 50px;
-    width: 100%;
+    width: -webkit-fill-available;
+   
+    padding: 5px;
+    text-align: end;
+}
+.inputSection{
+    margin-bottom: 20px;
+}
+.right{
+    display: flex;
+    align-items: center;
+    gap:10px
+}
+.textHead{
+    color: var(--textColor)
 }
