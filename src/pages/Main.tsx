@@ -24,8 +24,8 @@ const array = [
 
 function Main() {
   const [expression, setExpression] = useState("");
-  const [screenVal, setScreenVal] = useState("");
-  const [customVariables, setCustomVariables] = useState({});
+//   const [screenVal, setScreenVal] = useState("");
+  const [customVariables] = useState({});
   // Default mode is "rad"
   const [mode, setMode] = useState("rad");
   const [value, setValue] = useState(1);
@@ -81,16 +81,16 @@ function Main() {
       if (typeof result === "number" && !isNaN(result)) {
         setExpression(String(result));
       } else {
-        setScreenVal("Error: Invalid expression");
+        alert("Error: Invalid expression");
       }
     } catch (error) {
-      setScreenVal("Error: Invalid expression");
+      alert("Error: Invalid expression");
     }
   }
 
   function clearScreen() {
     setExpression("");
-    setScreenVal("");
+
   }
 
   function backspace() {
@@ -98,10 +98,7 @@ function Main() {
     setExpression(newExpression);
   }
 
-  function toggleMode() {
-    // Toggle between "rad" and "deg" modes
-    setMode(mode === "rad" ? "deg" : "rad");
-  }
+
 
   return (
     <>
