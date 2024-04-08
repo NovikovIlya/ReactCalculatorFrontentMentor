@@ -27,7 +27,7 @@ function Main() {
 //   const [screenVal, setScreenVal] = useState("");
   const [customVariables] = useState({});
   // Default mode is "rad"
-  const [mode, setMode] = useState("rad");
+  const [mode] = useState("rad");
   const [value, setValue] = useState(1);
 
   useEffect(()=>{
