@@ -1,0 +1,20 @@
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.numericPad{
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap:10px;
+    margin-bottom: 10px;
+}
+.controlButtons{
+    display: grid;
+    gap:10px;
+}
+.screen{
+    height: 50px;
+    width: 100%;
+}
